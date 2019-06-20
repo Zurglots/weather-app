@@ -1,29 +1,34 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {getAlerts} from "../actions"
+import { getAlerts } from "../actions";
 //Components
 import WeatherAlerts from "../components/WeatherAlerts";
 
 class WeatherViewContainer extends Component {
+  componentDidMount() {
+    this.props.getAlerts();
+  }
   render() {
-    componentDidMount() {
-console.log('cdm loaded');
-this.props.getAlerts();
-    };
-
     return (
       <div className="weather-container">
         <h2>Weather App Incoming</h2>
-        <WeatherAlerts />
+        {this.props.alerts.map(alert => {
+          return <WeatherAlerts alert={alert} key={alert.id} />;
+        })}
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    alerts: state.alerts,
+    fetching: state.fetching
+  };
+};
 
 export default connect(
-    null,
-   {getAlerts} 
-)(WeatherAlerts)
-
-export default WeatherViewContainer;
+  mapStateToProps,
+  { getAlerts }
+)(WeatherViewContainer);

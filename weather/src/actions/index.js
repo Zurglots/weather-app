@@ -7,9 +7,9 @@ import axios from "axios";
 
 //dispatch an action object to the reducer
 
-const FETCH_ALERT_START = "FETCH_ALERT_START";
-const FETCH_ALERT_SUCCESS = "FETCH_ALERT_SUCCESS";
-const FETCH_ALERT_ERROR = "ETCH_ALERT_ERROR";
+export const FETCH_ALERT_START = "FETCH_ALERT_START";
+export const FETCH_ALERT_SUCCESS = "FETCH_ALERT_SUCCESS";
+export const FETCH_ALERT_ERROR = "FETCH_ALERT_ERROR";
 
 export const getAlerts = () => dispatch => {
   dispatch({ type: FETCH_ALERT_START });
@@ -17,10 +17,10 @@ export const getAlerts = () => dispatch => {
     .get("https://api.weather.gov/alerts")
     .then(res => {
       console.log("getAlerts response", res);
-      dispatch({ type: FETCH_ALERT_SUCCESS });
+      dispatch({ type: FETCH_ALERT_SUCCESS, payload: res.data.features });
     })
     .catch(err => {
-      console.log("getAlerts error", error);
-      dispatch({ type: FETCH_ALERT_ERROR });
+      console.log("getAlerts error", err);
+      dispatch({ type: FETCH_ALERT_ERROR, payload: "You done goofed it!" });
     });
 };
